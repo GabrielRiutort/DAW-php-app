@@ -2,10 +2,19 @@
 
 // Incluye el archivo de conexión
 require_once('Connexio.php');
-
+/**
+ * Summary of Actualitzar
+ */
 class Actualitzar {
-    
-    // Método para actualizar un producto en la base de datos
+    /**
+     * Summary of actualizar
+     * @param mixed $id
+     * @param mixed $nom
+     * @param mixed $descripcio
+     * @param mixed $preu
+     * @param mixed $categoria
+     * @return void
+     */
     public function actualizar($id, $nom, $descripcio, $preu, $categoria) {
         // Verifica si todos los campos requeridos están presentes
         if (!isset($id) || !isset($nom) || !isset($descripcio) || !isset($preu) || !isset($categoria)) {
