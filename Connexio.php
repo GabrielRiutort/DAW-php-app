@@ -4,9 +4,9 @@
  */
 class Connexio {
     //Dades de la connexió a la base de dades la_meva_botiga.
-    private $host = "localhost";
-    private $usuario = "root";
-    private $contraseña = "";
+    private $host = "192.168.1.143";
+    private $usuario = "usuari";
+    private $contraseña = "usuari123";
     private $baseDatos = "la_meva_botiga";
     /**
      * Summary of obtenirConnexio
