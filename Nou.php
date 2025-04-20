@@ -3,8 +3,7 @@
 require_once('Connexio.php');
 class Nou
 {
-
-    /**
+/**
      * Summary of guardarProducte
      * @param mixed $nom
      * @param mixed $descripcio
@@ -12,23 +11,15 @@ class Nou
      * @param mixed $categoria
      * @return bool|string
      */
-    private function guardarProducte(
-        $nom,
-        $descripcio,
-        $preu,
-        $categoria
-    ) {
+    private function guardarProducte($nom, $descripcio, $preu, $categoria)
+    {
         // Verifica si todos los campos requeridos están presentes
-        if (
-            !isset($nom) || !isset($descripcio) || !isset($preu)
-            || !isset($categoria)
-        ) {
-            return "Se requieren todos los campos para guardar el
-producto.";
+        if (!isset($nom) || !isset($descripcio) || !isset($preu) || !isset($categoria)) {
+            return "Se requieren todos los campos para guardar el producto.";
         }
+
         // Crea una instancia de la clase de conexión
         $conexionObj = new Connexio();
-        // Obtiene la conexión a la base de datos
         $conexion = $conexionObj->obtenirConnexio();
 
         // Escapa las variables para prevenir SQL injection
@@ -36,20 +27,15 @@ producto.";
         $descripcio = $conexion->real_escape_string($descripcio);
         $preu = $conexion->real_escape_string($preu);
         $categoria = $conexion->real_escape_string($categoria);
+
         // Construye la consulta SQL de inserción
-        $consulta = "INSERT INTO productes (nom, descripció,
-preu, categoria_id)
- VALUES ('$nom', '$descripcio', '$preu',
-'$categoria')";
-        // Ejecuta la consulta
+        $consulta = "INSERT INTO productes (nom, descripció, preu, categoria_id) VALUES ('$nom', '$descripcio', '$preu', '$categoria')";
+
         if ($conexion->query($consulta) === TRUE) {
-            // Retorna true para indicar éxito
             $conexion->close();
             return true;
         } else {
-            // Retorna el mensaje de error
-            $error = "Error al guardar el producto: " .
-                $conexion->error;
+            $error = "Error al guardar el producto: " . $conexion->error;
             $conexion->close();
             return $error;
         }
@@ -66,21 +52,12 @@ preu, categoria_id)
         // Procesa el formulario si se ha enviado
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nom = isset($_POST['nom']) ? $_POST['nom'] : null;
-            $descripcio = isset($_POST['descripcio']) ?
-                $_POST['descripcio'] : null;
-            $preu = isset($_POST['preu']) ? $_POST['preu'] :
-                null;
-            $categoria = isset($_POST['categoria']) ?
-
-                $_POST['categoria'] : null;
+            $descripcio = isset($_POST['descripcio']) ? $_POST['descripcio'] : null;
+            $preu = isset($_POST['preu']) ? $_POST['preu'] : null;
+            $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : null;
 
             // Intenta guardar el producto
-            $resultado = $this->guardarProducte(
-                $nom,
-                $descripcio,
-                $preu,
-                $categoria
-            );
+            $resultado = $this->guardarProducte($nom, $descripcio, $preu, $categoria);
 
             if ($resultado === true) {
                 $redirigir = true;
@@ -98,65 +75,52 @@ preu, categoria_id)
         // Ahora podemos incluir el encabezado y generar salida HTML
         require_once('Header.php');
 
-        // Imprime la estructura HTML del formulario
-        echo '<div class="container mt-5" style="margin-bottom:
-200px">
- <h2>Nou producte</h2>
- <hr>';
+        // Imprime la estructura HTML del formulario con nuevo estilo
+        echo '<div class="container mt-5" style="max-width: 600px;">';
+        echo '<h2 class="text-center text-primary mb-4">Nuevo Producto</h2>';
+        echo '<hr>';
 
         // Muestra mensajes de error si los hay
         if (!empty($mensaje)) {
-            echo '<div class="alert alert-danger">' . $mensaje .
-                '</div>';
+            echo '<div class="alert alert-danger">' . $mensaje . '</div>';
         }
 
         echo '<form action="Nou.php" method="POST">
- <div class="mb-3">
- <label for="nom"
-class="form-label">Nom:</label>
-19
- <input type="text" name="nom"
-class="form-control" required>
- </div>
- <div class="mb-3">
- <label for="descripcio"
-class="form-label">Descripció:</label>
- <input type="text" name="descripcio"
-class="form-control" required>
- </div>
- <div class="mb-3">
- <label for="preu"
-class="form-label">Preu:</label>
- <input type="number" name="preu"
-step="0.01" class="form-control" required>
- </div>
- <div class="mb-3">
- <label for="categoria"
-class="form-label">Categoria:</label>
- <select name="categoria"
-class="form-select" required>
- <option value="">Selecciona una
-categoria</option>
- <option
-value="1">Electrónicos</option>
- <option value="2">Roba</option>
-<!-- Agrega más opciones según sea
-necesario -->
- </select>
- </div>
- <hr>
- <input type="submit" value="Guardar"
-class="btn btn-primary">
- <a href="Principal.php" class="btn
-btn-secondary">Cancelar</a>
- </form>
- </div>';
-
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nombre:</label>
+                <input type="text" name="nom" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="descripcio" class="form-label">Descripción:</label>
+                <input type="text" name="descripcio" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="preu" class="form-label">Precio:</label>
+                <input type="number" name="preu" step="0.01" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoría:</label>
+                <select name="categoria" class="form-select" required>
+                    <option value="">Selecciona una categoría</option>
+                    <option value="1">Electrónicos</option>
+                    <option value="2">Ropa</option>
+                    <!-- Agrega más opciones según sea necesario -->
+                </select>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <input type="submit" value="Guardar" class="btn btn-success">
+                <a href="Principal.php" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+        </div>';
 
         // Incluye el pie de página
         require_once('Footer.php');
     }
 }
+
 // Crea una instancia de la clase Nou y llama al método mostrarFormulari
 $nuevoProducto = new Nou();
 $nuevoProducto->mostrarFormulari();
+?>
