@@ -2,10 +2,15 @@
 
 require_once('Connexio.php');
 require_once('Header.php');
-
+/**
+ * Summary of Modificar
+ */
 class Modificar {
-
-    // Método para mostrar el formulario de modificación del producto
+    /**
+     * Summary of mostrarFormulari
+     * @param mixed $id
+     * @return void
+     */
     public function mostrarFormulari($id) {
         // Verifica si el ID del producto es válido
         if (!isset($id) || !is_numeric($id)) {
